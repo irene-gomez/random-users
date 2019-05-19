@@ -21,6 +21,8 @@ class App extends React.Component {
         };
         this.getData = this.getData.bind(this);
         this.getFiltersFromData = this.getFiltersFromData.bind(this);
+        this.pushDataFilterGender = this.pushDataFilterGender.bind(this);
+        this.pushDataFilterCities = this.pushDataFilterCities.bind(this);
     }
 
     getData() {
@@ -33,19 +35,15 @@ class App extends React.Component {
             });
     }
     getFiltersFromData() {
-        this.setState(prevState => {
-            const gendersFromData = this.state.userData.map(
-                item => item.gender
-            );
-            const uniqueGenders = gendersFromData.filter(
-                (item, index) => gendersFromData.indexOf(item) === index
+        this.setState(() => {
+            const gendersFromData = this.state.userData.map(item => item.gender);
+            const uniqueGenders = gendersFromData.filter((item, index) => 
+                gendersFromData.indexOf(item) === index
             );
 
-            const citiesFromData = this.state.userData.map(
-                item => item.location.city
-            );
-            const uniqueCities = citiesFromData.filter(
-                (item, index) => citiesFromData.indexOf(item) === index
+            const citiesFromData = this.state.userData.map(item => item.location.city);
+            const uniqueCities = citiesFromData.filter((item, index) => 
+                citiesFromData.indexOf(item) === index
             );
 
             return {
@@ -57,12 +55,50 @@ class App extends React.Component {
         });
     }
 
+    pushDataFilterGender(e) {
+        const target = e.target;
+        const { genders } = this.state.filters;
+        let index;
+
+        if(target.checked) {
+            genders.push(target.value);
+        } else {
+            index = genders.indexOf(e.target.value);
+            genders.splice(index, 1);
+        }
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                genders: genders,
+            }
+        });
+    }
+
+    pushDataFilterCities(e) {
+        const target = e.target;
+        const { cities } = this.state.filters;
+        let index;
+
+        if(target.checked) {
+            cities.push(target.value);
+        } else {
+            index = cities.indexOf(e.target.value);
+            cities.splice(index, 1);
+        }
+        this.setState({
+            filters: {
+                cities: cities,
+                ...this.state.filters,
+            }
+        });
+    }
+
     render() {
         const { filtersData, userData } = this.state;
         return (
             <div className="App">
                 <button onClick={this.getData}>Get data</button>
-                <button onClick={this.getFiltersFromData}>Get Genders</button>
+                <button onClick={this.getFiltersFromData}>Paint checks</button>
                 <form>
                     <fieldset>
                         {filtersData.allGenders.map((gender, index) => (
@@ -70,7 +106,9 @@ class App extends React.Component {
                                 id={`checkGenders${index}`}
                                 key={index}
                                 name="gender"
+                                value={gender}
                                 label={gender}
+                                listener={this.pushDataFilterGender}
                             />
                         ))}
                     </fieldset>
@@ -80,7 +118,9 @@ class App extends React.Component {
                                 id={`checkCities${index}`}
                                 key={index}
                                 name="cities"
+                                value={cities}
                                 label={cities}
+                                listener={this.pushDataFilterCities}
                             />
                         ))}
                     </fieldset>
