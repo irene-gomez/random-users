@@ -29,10 +29,8 @@ class App extends React.Component {
         fetch('https://randomuser.me/api/?results=50')
             .then(res => res.json())
             .then(data => {
-                this.setState(prevState => {
-                    return {
-                        userData: data.results
-                    }
+                this.setState({
+                    userData: data.results
                 });
             });
     }
@@ -100,56 +98,57 @@ class App extends React.Component {
         const { filtersData, userData, filters } = this.state;
         return (
             <div className="App">
-                {/* <button onClick={this.getData}>Get data</button> */}
-                <button onClick={this.getFiltersFromData}>Paint checks</button>
-                <form>
+                <form className="form">
+                <button type="button" className="button__paint-checks" onClick={this.getFiltersFromData}>Paint checks</button>
                     <fieldset>
+                        <h2 className="form__title gender">Gender</h2>
                         {filtersData.allGenders.map((gender, index) => (
                             <Checkbox
                                 id={`checkGenders${index}`}
                                 key={index}
                                 name="gender"
                                 value={gender}
-                                checkedFilter={filters.genders}
                                 label={gender}
                                 listener={this.pushDataFilterGender}
                             />
                         ))}
                     </fieldset>
                     <fieldset>
+                        <h2 className="form__title city">City</h2>
                         {filtersData.allCities.map((cities, index) => (
                             <Checkbox
                                 id={`checkCities${index}`}
                                 key={index}
                                 name="cities"
                                 value={cities}
-                                checkedFilter={filters.cities}
                                 label={cities}
                                 listener={this.pushDataFilterCities}
                             />
                         ))}
                     </fieldset>
-                    <ul>
+                </form>
+                <div>
+                    <ul className="users">
                         {userData
                             // si en mi objeto filters.gender está el género (true) que viene de la API se filtra
                             // si no hay longitud en mi array (false) no se filtra
                             .filter((user) => 
-                                filters.genders.includes(user.gender) || filters.genders.length === 0
+                            filters.genders.includes(user.gender) || filters.genders.length === 0
                             )
                             .filter((user) => 
-                                filters.cities.includes(user.location.city) || filters.cities.length === 0
+                            filters.cities.includes(user.location.city) || filters.cities.length === 0
                             )
                             .map((user, index) => (
                                 <UserCard
-                                    img={user.picture.thumbnail}
-                                    name={`${user.name.first} ${user.name.last}`}
-                                    city={user.location.city}
-                                    age={user.dob.age}
-                                    key={index}
+                                img={user.picture.large}
+                                name={`${user.name.first} ${user.name.last}`}
+                                city={user.location.city}
+                                age={user.dob.age}
+                                key={index}
                                 />
-                        ))}
+                                ))}
                     </ul>
-                </form>
+                </div>
             </div>
         );
     }

@@ -1,33 +1,50 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  padding: 20px;
+
+}
 .App {
-  text-align: center;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-gap: 40px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.button__paint-checks {
+  margin-bottom: 20px;;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.form {
+  position: relative;
+}
+
+.form__title {
+  margin-bottom: 16px;
+  background-color: #fff;
+  position: absolute;
+  padding: 5px 10px;
+}
+
+.form__title.gender {
+  top: 23px;
+  left: 9px;
+}
+.form__title.city {
+  top: 146px;
+  left: 9px;
+}
+
+.form fieldset {
+  text-align: left;
+  padding: 30px 20px 20px 20px;
+  margin-bottom: 20px;
+}
+
+.users {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  justify-content: space-between;
+  flex-flow: row wrap;
 }
