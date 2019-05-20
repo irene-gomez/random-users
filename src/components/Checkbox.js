@@ -9,6 +9,7 @@ class Checkbox extends React.Component {
                     name={this.props.name} 
                     id={this.props.id}
                     value={this.props.value}
+                    checked={this.props.checkedFilter.includes(this.props.value)}
                     onClick={this.props.listener}
                 />
                 <label htmlFor={this.props.id}>{this.props.label}</label>
